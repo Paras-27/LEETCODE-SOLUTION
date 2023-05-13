@@ -3,7 +3,7 @@
 class Solution {
 public:
     ll int zero,one;
-    ll int help(int &low,int &high,int num,vector<ll int> &dp){
+    ll int help(int &low,int &high,int num,vector<int> &dp){
         if(num>high) return 0;
         if(dp[num]!=-1){
             return dp[num];
@@ -16,7 +16,7 @@ public:
     int countGoodStrings(int low, int high, int zero, int one) {
         this->zero=zero;
         this->one=one;
-        vector<ll int> dp(high+1,-1);
+        vector<int> dp(high+1,-1);
         return help(low,high,0,dp);
     }
 };
