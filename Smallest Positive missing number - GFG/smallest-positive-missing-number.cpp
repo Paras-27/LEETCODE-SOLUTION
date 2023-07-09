@@ -8,21 +8,22 @@ using namespace std;
 class Solution
 {
     public:
+    //Function to find the smallest positive number missing from the array.
     int missingNumber(int arr[], int n) 
     { 
-        int ind;
+        int j;
         int val;
         for(int i=0;i<n;i++){
-            ind=arr[i]-1;
-            while(arr[i]>0 && arr[i]<n && arr[i]!=arr[ind]){        
-                swap(arr[ind],arr[i]);
-                ind=arr[i]-1;
+            j=arr[i]-1;
+            while(arr[i]>0 && arr[i]<n && arr[i]!=arr[j]){        
+                swap(arr[j],arr[i]);
+                j=arr[i]-1;
             }
-            
         }
-        for(int i=0;i<n;i++){
+        for(int i=0;i<n;i++)
+        {
             if(arr[i]!=i+1)
-                return i+1;
+            return i+1;
         }
         
         
