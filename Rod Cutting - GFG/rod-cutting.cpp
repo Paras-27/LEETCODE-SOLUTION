@@ -10,16 +10,20 @@ using namespace std;
 
 class Solution{
   public:
-    int cutRod(int price[], int n) {
-        //code here
-        vector<int>dp(n+1,0);
-        for(int i = 1; i <= n; i++){
-            dp[i] = price[i-1];
-            for(int j = 1; j < i; j++){
-                dp[i] = max(dp[i],dp[j]+dp[i-j]);
-            }
+    int help(int price[],int j,int i,int n,vector<vector<int>> &dp){
+        if(i==n+1){
+            return 0;
         }
-        return dp[n];
+        if(dp[j][i]!=-1){
+            return dp[j][i];
+        }
+        int take=help(price,i,i+1,n,dp)+price[i-j-1];
+        int notake=help(price,j,i+1,n,dp);
+        return dp[j][i]=max(take,notake);
+    } 
+    int cutRod(int price[], int n) {
+        vector<vector<int>> dp(n+1,vector<int> (n+1,-1));
+        return help(price,0,1,n,dp);
     }
 };
 
