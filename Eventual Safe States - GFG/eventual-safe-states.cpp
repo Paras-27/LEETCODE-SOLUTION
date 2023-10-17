@@ -10,35 +10,39 @@ using namespace std;
 
 class Solution {
   public:
-    bool cycle(vector<int> graph[],int node,vector<int> &visited,vector<int> & pathvisited){
-        visited[node]=true;
-        pathvisited[node]=true;
-        for(auto i:graph[node]){
-            if(!visited[i]){
-                if(cycle(graph,i,visited,pathvisited)){
-                    return true;
-                }
-            }
-            else if(visited[i] && pathvisited[i]){
-                return true;
-            }
+    bool dfs(vector<int> adj[],vector<int> &vis,int start,vector<int> &vec){
+        if(vis[start] == 2)return true;
+        if(vis[start] == 1)return false;
+        vis[start] = 1;
+        bool ans = true;
+        for(auto itr : adj[start]){
+            ans = ans and dfs(adj,vis,itr,vec);
         }
-        pathvisited[node]=false;
-        return false;
-    }
-    vector<int> eventualSafeNodes(int n, vector<int> graph[]) {
-        vector<int> visited(n,0);
-        vector<int> pathvisited(n,0);
-        vector<int> ans;
-        for(int i=0;i<n;i++){
-            if(!pathvisited[i]){
-                if(!cycle(graph,i,visited,pathvisited)){
-                    ans.push_back(i);
-                }
-            }
+        if(ans == true){
+            vec.push_back(start);
+            vis[start] = 2;
         }
         return ans;
     }
+    vector<int> eventualSafeNodes(int V, vector<int> adj[]) {
+        // code here
+        vector<int> vis(V,0);
+        vector<int> ans;
+        for(int i = 0;i < V;i++){
+            if(adj[i].size() == 0){
+                vis[i] = 2;
+                ans.push_back(i);
+            }
+        }
+        for(int i = 0;i < V;i++){
+            if(vis[i] == 0){
+                dfs(adj,vis,i,ans);
+            }
+        }
+        sort(ans.begin(),ans.end());
+        return ans;
+    }
+
 };
 
 
